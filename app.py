@@ -24,10 +24,7 @@ button_on_page = driver.find_element(By.XPATH, '//*[@id="mw-content-text"]/div[1
 button_on_page.click()
 time.sleep(4)
 # Find all paragraph elements on the page
-paragraphs = driver.find_element(By.Xpath,'//*[@id="mw-content-text"]/div[1]')
-print(paragraphs)
+paragraphs = driver.find_element(By.XPATH,'/html/body/div[2]/div/div[3]/main/div[3]/div[3]/div[1]/p[3]')
+print("test: ",paragraphs.text)
 
-# Iterate over the list of paragraph elements and print the text of each one.
-for paragraph in paragraphs:
-    print(paragraph.text)
 time.sleep(20)

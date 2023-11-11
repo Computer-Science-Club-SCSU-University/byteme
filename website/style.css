@@ -4,3 +4,6 @@ html body{
     background-color: rgb(255, 255, 255) !important;
     color: white;
 }
+h1{
+    font-size: 75px;
+}

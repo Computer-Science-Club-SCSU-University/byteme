@@ -1,11 +1,4 @@
-"""
-This file contains useful functions for the program
-
-:Author: Joshua O. Olaoye
-"""
-
-
-from json import dumps
+import json
 import re
 
 
@@ -26,7 +19,7 @@ def findOptimalCourse(courses: dict, goalLeft: list):
 
     for course in courses:
         points = 0
-        goalFulfill = courses[course]["goal"]
+        goalFulfill = courses[course]
 
         for goals in goalLeft:
             if goals in goalFulfill:
@@ -40,7 +33,7 @@ def findOptimalCourse(courses: dict, goalLeft: list):
         if val > 0:
             res.append(key)
 
-    return dumps({"optimalCourses": res})
+    return json.dumps({"optimalCourses": res})
 
 
 def splitAlpha(string):
@@ -114,3 +107,60 @@ def extractCourseCode(text):
     courselist = list(sorted(courselist))
 
     return courselist
+
+
+def extractGoalAreas(text):
+    pattern = r"GOAL\s*(?P<goal_number>\d+):"
+    current = -1
+
+    sortGoalAreas = {"NO": [], "YES": [], "IP": []}
+    goalCourses = {}
+
+    for line in text:
+        if re.search(pattern, line):
+            content = line.split()
+            current = int(content[2][:-1])
+
+            if content[0] in sortGoalAreas:
+                sortGoalAreas[content[0]].append(current)
+            else:
+                sortGoalAreas[content[0]] = [current]
+
+            goalCourses[current] = ""
+
+        elif "UNIVERSITY REQUIREMENTS-DIVERSITY" in line:
+            break
+
+        else:
+            if current in goalCourses:
+                goalCourses[current] += line
+
+    for goals in goalCourses:
+        goalCourses[goals] = extractCourseCode(goalCourses[goals])
+
+    return {"Goal-Courses": goalCourses, "Progress-Goal": sortGoalAreas}
+
+
+def extractCourseGoals(goalCourses):
+    courseGoals = {}
+
+    for goal in goalCourses:
+        for course in goalCourses[goal]:
+            if course in courseGoals:
+                courseGoals[course].append(goal)
+            else:
+                courseGoals[course] = [goal]
+
+    return courseGoals
+
+
+def pipeline(text):
+    extract = extractGoalAreas(text)
+
+    courseContents = extract["Goal-Courses"]
+
+    userNotCompleted = extract["Progress-Goal"]["NO"]
+
+    courseGoals = extractCourseGoals(courseContents)
+
+    return findOptimalCourse(courseGoals, userNotCompleted)

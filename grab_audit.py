@@ -1,4 +1,5 @@
 #used to bypass cloudflare bot check, it's a modded version of chromedriver with a little bit different usage
+import base64
 import undetected_chromedriver as uc
 
 #used for making whole function pause for a perios of time. Should be replaced by await eventually.
@@ -24,8 +25,36 @@ load_dotenv()
 password = os.getenv("PASSWORD")
 username = os.getenv("USERNAME")
 
+import json
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+# Set up Chrome options
+chrome_options = uc.ChromeOptions()
+
+# Adding the necessary options to enable printing to PDF
+app_state = {
+    "recentDestinations": [
+        {
+            "id": "Save as PDF",
+            "origin": "local",
+            "account": ""
+        }
+    ],
+    "selectedDestinationId": "Save as PDF",
+    "version": 2
+}
+chrome_options.add_experimental_option(
+    'prefs', {
+        'printing.print_preview_sticky_settings.appState': json.dumps(app_state),
+    }
+)
+chrome_options.add_argument('--kiosk-printing')  # Skip print preview
+
+
 #undetected_chromedriver as uc application, starts blank browser controlled from this python file
-driver = uc.Chrome()
+driver = uc.Chrome(options=chrome_options)
+
 
 # Create a WebDriverWait instance with a timeout (e.g., 30 seconds)
 wait = WebDriverWait(driver, 30)
@@ -138,6 +167,20 @@ move_on = input("Move on 15 -->")
 button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[4]/div[1]/p[2]/a')
 button_on_page.click()
 move_on = input("Move on 16 -->")
+# Execute the print command
+# Execute script to print the page as PDF
+result = driver.execute_cdp_cmd('Page.printToPDF', {
+    'landscape': False,
+    'displayHeaderFooter': False,
+    'printBackground': True,
+    'preferCSSPageSize': True,
+})
+# Get the PDF and decode it
+pdf = base64.b64decode(result['data'])
+# Write the PDF to a file
+with open('page.pdf', 'wb') as file:
+    file.write(pdf)
+driver.execute_script('window.print();')
 page_body = (driver.find_element(By.XPATH, '/html/body')).text
 print(page_body)
 move_on = input("Move on 17 -->")
@@ -152,3 +195,5 @@ with open(filename, 'w', encoding='utf-8') as file:
 print(f"Text has been saved to {filename}")
 move_on = input("Move on 18 -->")
 time.sleep(20)
+# Close the browser
+driver.quit()

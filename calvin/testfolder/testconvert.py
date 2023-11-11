@@ -80,3 +80,4 @@ with open("calvintran.txt", 'r') as file:
 
 print(extractCourseCode(file_contents))
 print(len(extractCourseCode(file_contents)))
+print(len(set(extractCourseCode(file_contents))))

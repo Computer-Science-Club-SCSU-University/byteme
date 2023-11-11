@@ -1,17 +1,64 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Byte Me</title>
-        <meta name="description" content="Optimzied goal areas">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="stylesheet" href="style.css">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    </head>
-    <body class="bg-dark">
-        <h1 class="text-center text-white mt-5">Welcome to <br> Byte me</h1>
-
-    </body>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Byte Me</title>
+		<meta name="description" content="Optimzied goal areas" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous" />
+		<link rel="stylesheet" href="style.css" />
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			crossorigin="anonymous"></script>
+	</head>
+	<body class="bg-dark">
+		<h1 class="text-center text-white mt-5 mb-5">
+			Welcome to <br />
+			Byte me
+		</h1>
+		<div class="container col-4">
+			<form>
+				<div class="form-group mt-5">
+					<label for="startid">Star ID</label>
+					<input
+						type="starid"
+						class="form-control"
+						id="starid"
+						placeholder="Enter Star ID" />
+				</div>
+				<div class="form-group mt-3">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						class="form-control"
+						id="password"
+						placeholder="Password" />
+				</div>
+				<div class="form-check mt-1 small">
+					<input
+						type="checkbox"
+						class="form-check-input"
+						id="privacyAccept" />
+					<label
+						class="form-check-label text-size-small"
+						for="privacy notice"
+						>When using Byte Me, we do not collect any personal data
+						about you. You can use our services anonymously, and we
+						ensure that your usage remains private.</label
+					>
+				</div>
+				<div>
+					<button type="submit" class="mt-2 btn btn-primary">
+						Submit
+					</button>
+				</div>
+			</form>
+		</div>
+	</body>
 </html>

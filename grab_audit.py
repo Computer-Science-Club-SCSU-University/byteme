@@ -134,6 +134,7 @@ move_on = input("Move on 14 -->")
 button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div/form[2]/div[2]/table/tbody/tr[3]/td[11]/a')
 button_on_page.click()
 move_on = input("Move on 15 -->")
+#This part will need to be made dynamic to make more robust
 button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[4]/div[1]/p[2]/a')
 button_on_page.click()
 move_on = input("Move on 16 -->")

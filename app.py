@@ -137,5 +137,17 @@ move_on = input("Move on 15 -->")
 button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[4]/div[1]/p[2]/a')
 button_on_page.click()
 move_on = input("Move on 16 -->")
+page_body = (driver.find_element(By.XPATH, '/html/body')).text
+print(page_body)
+move_on = input("Move on 17 -->")
+# Specify the filename
+filename = "output.txt"
 
+# Open the file in write mode ('w') and write the string to it
+with open(filename, 'w', encoding='utf-8') as file:
+    file.write(page_body)
+
+# The 'with' block ensures the file is properly closed after writing
+print(f"Text has been saved to {filename}")
+move_on = input("Move on 18 -->")
 time.sleep(20)

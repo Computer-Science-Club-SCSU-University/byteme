@@ -36,6 +36,7 @@ def PrintToScreen(filtered_words_with_next):
         print(filtered_words_with_next[n], filtered_words_with_next[n+1])
 
     print(len(filtered_words_with_next))
+    print(len(set(filtered_words_with_next)))
 
 
 

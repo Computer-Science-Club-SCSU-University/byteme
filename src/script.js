@@ -1,39 +1,50 @@
-// JavaScript function to make an AJAX call
-const loadData = () => {
-	$.ajax({
-		url: '[place holder]', // URL of the server-side script
-        type: 'GET', // The HTTP method
-        dataType: 'json',
-		success: function (response) {
-			// This function is called if the request was successful.
-			$('#result').html(response); // Update the content of a div with id 'result'
-		},
-		error: function (xhr, status, error) {
-			// This function is called if the request failed.
-			console.error('Error: ' + error);
-		},
-	});
+document.addEventListener('DOMContentLoaded', function () {
+	fetchAccordionData('https://jsonplaceholder.typicode.com/users'); // Replace with your actual API URL
+});
+
+function fetchAccordionData(apiUrl) {
+	fetch(apiUrl)
+		.then((response) => response.json())
+		.then((data) => populateAccordion(data))
+		.catch((error) => console.error('Error fetching data:', error));
 }
-// Call the function, for example, on a button click
-$('#goals-needed').click(loadData);
 
+function populateAccordion(data) {
+	const accordionContainer = document.getElementById('accordionExample'); // Use the main accordion ID
 
+	data.forEach((item, index) => {
+		const mainAccordionId = `collapseMain${index}`;
+		const subAccordionId = `collapseSub${index}`;
 
+		const accordionItem = `
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading${index}">
+                    <button class="accordion-button collapsed bg-white text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#${mainAccordionId}" aria-expanded="false" aria-controls="${mainAccordionId}">
+                        ${item.name} 
+                    </button>
+                </h2>
+                <div id="${mainAccordionId}" class="accordion-collapse collapse" aria-labelledby="heading${index}">
+                    <div class="accordion-body">
+                        <div class="accordion" id="subAccordion${index}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="subHeading${index}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${subAccordionId}" aria-expanded="false" aria-controls="${subAccordionId}">
+                                        Email
+                                    </button>
+                                </h2>
+                                <div id="${subAccordionId}" class="accordion-collapse collapse" aria-labelledby="subHeading${index}">
+                                    <div class="accordion-body">
+                                        ${item.email}
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Additional details can be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
 
-
-
-
-const displayData = (data) => {
-	// Use the jQuery $ function to select the element by ID and set its content
-	$('#goals-needed').text(data); // If it's just text
-	// OR
-	//$('#data-container').html(data); // If you need to insert HTML
-};
-// Example data from a script
-const parsedData = '';
-
-if (parsedData == '') {
-	displayData('All goals meet.......');
-} else {
-	displayData(parsedData);
+		accordionContainer.innerHTML += accordionItem;
+	});
 }

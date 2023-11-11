@@ -1,5 +1,6 @@
 html body{
     width: auto;
     height: 100%;
-    background-color: black !important;
+    background-color: rgb(255, 255, 255) !important;
+    color: white;
 }

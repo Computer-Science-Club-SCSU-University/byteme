@@ -308,6 +308,9 @@ This product would add great value to students and SCSU as a whole. It would all
 - Expand to all courses and implement a questionnaire/chatbot to help students gage what elective courses they might have interest in.
 ### 6. Glossary
 ---
+- **Web Scrapping**: The process of using bots to extract content and data from a website.
+- **API**: Application Programming Interface.
+- **Text Parsing/Parser**: Task that separates the given series of text into smaller components based on some rules.
 ### 7. Contributors
 ---
 - [Abdinasir Mumin](https://github.com/AbdinasirM)

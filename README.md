@@ -139,6 +139,11 @@ function populateAccordion(data) {
 }
 ```
 
+<p align="center">
+  <img src="Hackathon%20Fall%202023%20README%20Resources/WebGUIReportDEMO.gif" alt="WebGUIReportDEMO" width="900"/>
+</p>
+
+
 #### GIF 2 | Audit and Degree Map Scrape
 
 

@@ -19,49 +19,46 @@ function fetchAccordionData(apiUrl) {
 // Function to populate the accordion with data
 // 
 function populateAccordion(data) {
-    const accordionContainer = document.getElementById('accordTemplate');
+	const accordionContainer = document.getElementById('accordTemplate');
 
-    // Iterate over each goal area
-    Object.keys(data).forEach((goalArea, index) => {
-        let subAccordions = '';
+	Object.keys(data).forEach((mainCategory, mainIndex) => {
+		let subAccordions = '';
+		const mainAccordionId = `collapseMain${mainIndex}`;
 
-        // Iterate over each course within the goal area
-        data[goalArea].forEach((courseObject) => {
-            const courseName = Object.keys(courseObject)[0];
-            const coveredGoals = courseObject[courseName];
+		data[mainCategory].forEach((subCategoryObj) => {
+			const subCategoryKey = Object.keys(subCategoryObj)[0];
+			const subCategoryData = subCategoryObj[subCategoryKey];
+			const subAccordionId = `collapseSub${mainIndex}${subCategoryKey.replace(
+				/[^a-zA-Z0-9]/g,
+				''
+			)}`;
 
-            const subAccordionId = `collapseSub${goalArea}${courseName.replace(/[^a-zA-Z0-9]/g,'')}`;
-
-            // Generate sub-accordion items for each course
-            subAccordions += `
+			subAccordions += `
                 <div class="accordion-item">
-                    <h2 class="accordion-header" id="subHeading${courseName}${index}">
+                    <h2 class="accordion-header" id="subHeading${subCategoryKey}${mainIndex}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${subAccordionId}" aria-expanded="false" aria-controls="${subAccordionId}">
-                            ${courseName}
+                           ${subCategoryKey}
                         </button>
                     </h2>
-                    <div id="${subAccordionId}" class="accordion-collapse collapse" aria-labelledby="subHeading${courseName}">
+                    <div id="${subAccordionId}" class="accordion-collapse collapse" aria-labelledby="subHeading${subCategoryKey}${mainIndex}">
                         <div class="accordion-body">
-                            Covered Goals: ${coveredGoals.join(', ')}
+                            Goal: ${subCategoryData.join(', ')}
                         </div>
                     </div>
                 </div>
             `;
-        });
+		});
 
-        const mainAccordionId = `collapseMain${index}`;
-
-        // Generate main accordion items for each goal area
-        const accordionItem = `
+		const accordionItem = `
             <div class="accordion-item">
-                <h2 class="accordion-header" id="heading${index}">
-                    <button class="accordion-button collapsed bg-white text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#${mainAccordionId}" aria-expanded="false" aria-controls="${mainAccordionId}">
-                        Goal Area: ${goalArea}
+                <h2 class="accordion-header" id="heading${mainIndex}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${mainAccordionId}" aria-expanded="false" aria-controls="${mainAccordionId}">
+                        Goal: ${mainCategory}
                     </button>
                 </h2>
-                <div id="${mainAccordionId}" class="accordion-collapse collapse" aria-labelledby="heading${index}">
+                <div id="${mainAccordionId}" class="accordion-collapse collapse" aria-labelledby="heading${mainIndex}">
                     <div class="accordion-body">
-                        <div class="accordion" id="subAccordion${index}${goalArea}">
+                        <div class="accordion" id="subAccordion${mainIndex}${mainCategory}">
                             ${subAccordions}
                         </div>
                     </div>
@@ -69,13 +66,6 @@ function populateAccordion(data) {
             </div>
         `;
 
-        accordionContainer.innerHTML += accordionItem;
-    });
-
-    // Reinitialize Bootstrap Collapse for dynamically added elements
-    document.querySelectorAll('.accordion-button').forEach(function(element) {
-        new bootstrap.Collapse(element, {
-            toggle: false
-        });
-    });
+		accordionContainer.innerHTML += accordionItem;
+	});
 }

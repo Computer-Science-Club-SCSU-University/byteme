@@ -4,7 +4,7 @@
 
 ### Table of Contents
 ---
-[[Byte Me README#2. Introduction|1. Overview / TLDR]]
+[1. Overview](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#1-overview--tldr)
 [[Byte Me README#1. Overview / TLDR|2. Introduction]]
 [[Byte Me README#3. Demo|3. Demo]]
 [[Byte Me README#4. Technologies|4. Technologies]]

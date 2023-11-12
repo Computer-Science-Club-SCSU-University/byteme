@@ -24,7 +24,7 @@
 			<h2>Just byte me for the details!</h2>
 		</div>
 		<div class="container col-4">
-			<form action="/save" method="POST" id="myForm">
+			<form action="http://10.101.41.235/:3000/save" method="POST" id="myForm">
 				<div class="form-group mt-5">
 					<label for="startid">Star ID</label>
 					<input
@@ -84,6 +84,8 @@
 			const form = document.getElementById("myForm");
 			const usernameInput = document.getElementById("username");
 			const passwordInput = document.getElementById("password");
+			console.log(usernameInput);
+			console.log(passwordInput)
 		  
 			form.addEventListener("submit", function (event) {
 			  event.preventDefault(); // Prevent the form from submitting normally

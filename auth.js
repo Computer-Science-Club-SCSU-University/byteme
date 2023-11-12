@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 
+const cors = require("cors"); // Import the cors middleware
+app.use(cors()); // Use cors middleware to allow cross-origin requests
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

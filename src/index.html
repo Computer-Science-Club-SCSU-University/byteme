@@ -99,7 +99,7 @@
 			  formData.append("password", password);
 		  
 			  // Send the data to the server for processing (AJAX or fetch request)
-			  fetch("/save", {
+			  fetch("http://10.101.41.235/:3000/save", {
 				method: "POST",
 				body: formData,
 			  })

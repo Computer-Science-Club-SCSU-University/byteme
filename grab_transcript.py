@@ -22,8 +22,9 @@ from dotenv import load_dotenv
 # Load the .env file
 load_dotenv()
 #set variables from .env file
-password = os.getenv("PASSWORD")
-username = os.getenv("USERNAME")
+password = input("Password: ")
+username = input("Username: ")
+
 
 import json
 from selenium import webdriver
@@ -126,7 +127,7 @@ pattern = r'xxx-xx-(\d{4})'
 import re
 floating_pages = re.sub(pattern, '************', floating_pages)
 
-filename = "transcript.txt"
+filename = "grab_transcript.txt"
 
 # Open the file in write mode ('w') and write the string to it
 with open(filename, 'w', encoding='utf-8') as file:

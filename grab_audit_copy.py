@@ -25,8 +25,8 @@ def degree_audit_return(username, password):
     try:
 
         #set variables from .env file
-        password = "Egobabe100%"#os.getenv("PASSWORD")
-        username = "fg2784fh"#os.getenv("USERNAME")
+        #password = "Egobabe100%"#os.getenv("PASSWORD")
+        #username = "fg2784fh"#os.getenv("USERNAME")
 
         import json
         from selenium import webdriver
@@ -292,7 +292,7 @@ def degree_audit_return(username, password):
 
         
         print(text) 
-        filename = "audit.txt"
+        filename = "degree_audit.txt"
 
         # Open the file in write mode ('w') and write the string to it
         with open(filename, 'w', encoding='utf-8') as file:

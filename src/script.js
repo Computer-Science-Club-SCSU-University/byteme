@@ -1,7 +1,7 @@
 // Event listener for the DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', function () {
     // Calls fetchAccordionData function when the DOM is fully loaded
-    fetchAccordionData('http://10.101.16.250/utils');
+    fetchAccordionData('byteme/data.json');
     // if (!fetchAccordionData('http://10.101.16.250/utils')) {
     //     console.log('Error fetching data');
     // } // Replace with your actual API URL

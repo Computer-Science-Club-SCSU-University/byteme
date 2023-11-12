@@ -58,14 +58,11 @@ def findOptimalCourse(courses: dict, goalLeft: list, userNotCompleted: dict):
 
 def splitAlpha(string: str):
     """
-    This function creates a list of optimal courses according
-    to the goal areas hasn't fulfilled in descending order
+    This function seperates course abbreviations and codes into seperate lists
 
-    :param courses: The json of all courses from the scraper
-    :type courses: dict
-    :param goalLeft: Goal areas the user needs to fulfill
-    :type goalLeft: list
-    :return: A json of all the optimal courses the user can take
+    :param string: The string to be seperated
+    :type string: str
+    :return: The the list of course abbreviations and 
     :rtype: dict
     """
     courses = []
@@ -163,25 +160,29 @@ def extractGoalAreas(text: list):
     :return: A json of all the optimal courses the user can take
     :rtype: dict
     """
-    pattern = r"GOAL\s*(?P<goal_number>\d+):"
+    pattern_1 = r"GOAL\s*(?P<goal_number>\d+):"
+    pattern_2 = r'\(\d+ courses? or experience[s]?\)'
     current = -1
 
     sortGoalAreas = {"NO": [], "YES": [], "IP": []}
     goalCourses = {}
 
     for line in text:
-        if re.search(pattern, line):
+        if re.search(pattern_1, line):
             content = line.split()
             current = int(content[2][:-1])
             description = " ".join(content[3:])
+
+            goalCourses[current] = ""
+
+        elif re.search(pattern_2, line):
+            description += f" {line.strip()}"
 
             if content[0] in sortGoalAreas:
                 sortGoalAreas[content[0]].append({current: description})
             else:
                 sortGoalAreas[content[0]] = [{current: description}]
-
-            goalCourses[current] = ""
-
+        
         elif "UNIVERSITY REQUIREMENTS-DIVERSITY" in line:
             break
 

@@ -64,12 +64,13 @@ button_on_page = driver.get("https://eservices.minnstate.edu/esession/authentica
 
 time.sleep(4)
 
-"""button_on_page = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[3]/td/select')
+"""button_on_page = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[1]/td/input')
 button_on_page.click()
 time.sleep(4)
 button_on_page = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[3]/td/select/option[33]')
 button_on_page.click()
 time.sleep(4)"""
+move_on = input("Move on 0 -->")
 try:
     input_field_username = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[1]/td/input')
     input_field_password = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[2]/td/input')
@@ -156,17 +157,63 @@ button_on_page.click()
 move_on = input("Move on 11 -->")
 button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[2]/div[2]/button')
 button_on_page.click()
-move_on = input("Move on 13 -->")
+move_on = input("Move on --- -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/form/div[2]/h2/span/a')
+button_on_page.click()
+move_on = input("Move on --- -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/form/div[3]/div/div/table/tbody/tr[4]/td[2]/select')
+button_on_page.click()
+move_on = input("Move on -- -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/form/div[3]/div/div/table/tbody/tr[4]/td[2]/select/option[2]')
+button_on_page.click()
+move_on = input("Move on --- -->")
 button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/form/div[4]/div/p/button')
 button_on_page.click()
 move_on = input("Move on 14 -->")
+
+
+
+
+
 button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/div/form[2]/div[2]/table/tbody/tr[3]/td[11]/a')
 button_on_page.click()
 move_on = input("Move on 15 -->")
-#This part will need to be made dynamic to make more robust
-button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[4]/div[1]/p[2]/a')
+
+
+pdf_section = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[4]/p[1]/a')
+
+pdf_section.click()
+
+move_on = input("Move on 16 -->")
+
+import os
+import glob
+
+folder_path = "C:/Users/kg7481ty/Downloads/"  # Replace with the actual path to your folder
+
+# Get a list of all files in the folder
+files = glob.glob(os.path.join(folder_path, "*"))
+
+# Sort the files by modification time (most recent first)
+files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+
+
+# Check if there are any files in the folder
+if files:
+    most_recent_file = files[0]
+    filepath = most_recent_file.replace("/",f'\\')
+    print(filepath)
+else:
+    print("The folder is empty.")
+
+
+
+"""button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div/div[4]/div[1]/p[2]/a')
 button_on_page.click()
 move_on = input("Move on 16 -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/pdf-viewer//viewer-toolbar//div/div[3]/viewer-download-controls//cr-icon-button//div/iron-icon')
+button_on_page.click()
+
 # Execute the print command
 # Execute script to print the page as PDF
 result = driver.execute_cdp_cmd('Page.printToPDF', {
@@ -194,6 +241,62 @@ with open(filename, 'w', encoding='utf-8') as file:
 # The 'with' block ensures the file is properly closed after writing
 print(f"Text has been saved to {filename}")
 move_on = input("Move on 18 -->")
+"""
+move_on = input("Move on -- -->")
+driver.get("https://www.zamzar.com/")
+move_on = input("Move on 19 -->")
+button_get_file = driver.find_element(By.XPATH, '/html/body/main/section[1]/div/div[2]/div[1]/div[2]/div[2]/button[1]')
+
+button_get_file.click()
+time.sleep(3)
+from pynput.keyboard import Key, Controller
+keyboard = Controller()
+time.sleep(3)
+keyboard.type(filepath)
+keyboard.press(Key.enter)
+move_on = input("Move on 21 -->")
+button_get_file = driver.find_element(By.XPATH, '//*[@id="format"]')
+button_get_file.click()
+move_on = input("Move on 22 -->")
+button_get_file = driver.find_element(By.XPATH, '//*[@id="format"]/optgroup[1]/option[10]')
+button_get_file.click()
+move_on = input("Move on 23 -->")
+button_get_file = driver.find_element(By.XPATH, '//*[@id="convert"]')
+button_get_file.click()
+move_on = input("Move on 24 -->")
+button_get_file = driver.find_element(By.XPATH, '//*[@id="conversions"]/tbody/tr/td[2]/a')
+button_get_file.click()
+move_on = input("Move on 25 -->")
+button_get_file = driver.find_element(By.XPATH, '/html/body/main/div/div/div[1]/table/tbody/tr/td[2]/a')
+button_get_file.click()
+
+move_on = input("Move on 26 -->")
+
+# importing required modules 
+from PyPDF2 import PdfReader 
+  
+# creating a pdf reader object 
+reader = PdfReader(filepath) 
+  
+# printing number of pages in pdf file 
+pages = int(str(len(reader.pages)))
+  
+floating_pages = ""
+for i in range(pages):
+    page = reader.pages[i]
+    text = page.extract_text() 
+    floating_pages += floating_pages + text
+
+ 
+print(text) 
+filename = "audit.txt"
+
+# Open the file in write mode ('w') and write the string to it
+with open(filename, 'w', encoding='utf-8') as file:
+    file.write(floating_pages)
+
+
+move_on = input("Move on 27 -->")
 time.sleep(20)
 # Close the browser
 driver.quit()

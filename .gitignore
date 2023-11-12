@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-/node_modules/
-=======
 ## Ignore Files
-
+/node_modules/
 
 # Ignore Environment File
 *.env
 
 #ignore cached python files
 __pycache__
->>>>>>> main

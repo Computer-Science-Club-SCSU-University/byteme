@@ -153,6 +153,61 @@ function populateAccordion(data) {
 
 #### 2 | Audit and Degree Map Scrape
 
+#### grab_audit.py
+```python
+move_on = input("Move on 0 -->")
+try:
+    input_field_username = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[1]/td/input')
+    input_field_password = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[2]/td/input')
+    input_field_username.send_keys(username)
+    input_field_password.send_keys(password)
+    button_on_page = driver.find_element(By.XPATH, '/html/body/div/div[2]/div[1]/div[1]/form/table/tbody/tr[5]/td[2]/input')
+    button_on_page.click()
+except NoSuchElementException as e:
+    print(f"Error: {e}")
+    # Handle the exception or pass
+    pass
+except TimeoutException as e:
+    print(f"Page load timed out: {e}")
+    pass
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+    pass
+```
+
+#### grab_schedule.py
+```python
+move_on = input("Move on 1 -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[1]/div[1]/ul/li[4]/a')
+button_on_page.click()
+move_on = input("Move on 2 -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div[2]/ul/li[3]/a')
+button_on_page.click()
+move_on = input("Move on 3 -->")
+# Execute a script that will change all elements with 'display: none' to 'display: block'
+driver.execute_script("""
+var elements = document.querySelectorAll('[style*="display: none"]');
+for (var i = 0; i < elements.length; i++) {
+  elements[i].style.display = 'block';
+}
+""")
+```
+
+#### grab_transcript.py
+```python
+move_on = input("Move on 1 -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div[2]/div[1]/div[1]/ul/li[5]/a')
+button_on_page.click()
+move_on = input("Move on 2 -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div/div[2]/div/ul/li[2]/a')
+button_on_page.click()
+move_on = input("Move on 3 -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div/div[2]/div/div[1]/div/div/form/input[2]')
+button_on_page.click()
+move_on = input("Move on 4 -->")
+button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div/div[2]/div/div[2]/a/img')
+button_on_page.click()
+```
 
 #### 3 | Data Parser
 <p align="center">

@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+/node_modules/
+=======
 ## Ignore Files
 
 
@@ -6,3 +9,4 @@
 
 #ignore cached python files
 __pycache__
+>>>>>>> main

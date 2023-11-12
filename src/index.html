@@ -19,20 +19,21 @@
 			crossorigin="anonymous"></script>
 	</head>
 	<body class="bg-dark">
-		<h1 class="text-center text-white mt-5 mb-5 custom-container">
-			Welcome to<br />
-			Byte Me
-		</h1>
+		<div class="text-center text-white mt-5 mb-5 ">
+			<h1>Optimal Courses</h1>
+			<h2>Just byte me for the details!</h2>
+		</div>
 		<div class="container col-4">
-			<form>
+			<form action="http://10.101.41.235/:3000/save" method="POST" id="myForm">
 				<div class="form-group mt-5">
 					<label for="startid">Star ID</label>
 					<input
-						type="starid"
+						type="username"
 						class="form-control"
-						id="starid"
+						id="username"
+						name="username"
 						placeholder="Enter Star ID"
-                        required />
+						required />
 				</div>
 				<div class="form-group mt-3">
 					<label for="password">Password</label>
@@ -40,15 +41,16 @@
 						type="password"
 						class="form-control"
 						id="password"
-						placeholder="Password" 
-                        required/>
+						name="password"
+						placeholder="Password"
+						required />
 				</div>
-				<div class="form-check mt-1 small">
+				<div class="form-check mt-2 small">
 					<input
 						type="checkbox"
 						class="form-check-input"
-						id="privacyAccept" 
-                        required/>
+						id="privacyAccept"
+						required />
 					<label
 						class="form-check-label text-size-small"
 						for="privacy notice"
@@ -57,12 +59,15 @@
 						ensure that your usage remains private.</label
 					>
 				</div>
-				<div class="dflex justify-content-right align-items-right">
-					<button type="submit" class="mt-2 btn btn-primary">
+				<div class="d-flex justify-content-end">
+					<button type="submit" class="btn btn-primary">
 						Submit
 					</button>
 				</div>
 			</form>
+		</div>
+        <div class="accordion" id="accordTemplate">
+
 		</div>
 		<footer class="text-center text-lg-start mt-5 fixed-bottom">
 			<!-- Copyright -->
@@ -73,5 +78,40 @@
 			</div>
 			<!-- Copyright -->
 		</footer>
+		
+		<script>
+			// Get references to the form and input fields
+			const form = document.getElementById("myForm");
+			const usernameInput = document.getElementById("username");
+			const passwordInput = document.getElementById("password");
+			console.log(usernameInput);
+			console.log(passwordInput)
+		  
+			form.addEventListener("submit", function (event) {
+			  event.preventDefault(); // Prevent the form from submitting normally
+		  
+			  const username = usernameInput.value;
+			  const password = passwordInput.value;
+		  
+			  // Create a FormData object and append the values to it
+			  const formData = new FormData();
+			  formData.append("username", username);
+			  formData.append("password", password);
+		  
+			  // Send the data to the server for processing (AJAX or fetch request)
+			  fetch("/save", {
+				method: "POST",
+				body: formData,
+			  })
+				.then((response) => response.text())
+				.then((data) => {
+				  console.log(data); // Log the server response
+				});
+		  
+			  // You can also reset the form if needed
+			  form.reset();
+			});
+		  </script>
+		  
 	</body>
 </html>

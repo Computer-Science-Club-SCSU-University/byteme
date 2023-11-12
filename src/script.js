@@ -1,39 +1,71 @@
-// JavaScript function to make an AJAX call
-const loadData = () => {
-	$.ajax({
-		url: '[place holder]', // URL of the server-side script
-        type: 'GET', // The HTTP method
-        dataType: 'json',
-		success: function (response) {
-			// This function is called if the request was successful.
-			$('#result').html(response); // Update the content of a div with id 'result'
-		},
-		error: function (xhr, status, error) {
-			// This function is called if the request failed.
-			console.error('Error: ' + error);
-		},
-	});
+// Event listener for the DOMContentLoaded event
+document.addEventListener('DOMContentLoaded', function () {
+    // Calls fetchAccordionData function when the DOM is fully loaded
+    fetchAccordionData('http://10.101.41.235/utils');
+    // if (!fetchAccordionData('http://10.101.16.250/utils')) {
+    //     console.log('Error fetching data');
+    // } // Replace with your actual API URL
+});
+
+// Function to fetch data for the accordion from an API
+function fetchAccordionData(apiUrl) {
+	// Fetches data from the API URL
+	fetch(apiUrl)
+		.then((response) => response.json()) // Parses the response as JSON
+		.then((data) => populateAccordion(data)) // Calls populateAccordion with the parsed data
+		.catch((error) => console.error('Error fetching data:', error)); // Logs errors, if any
 }
-// Call the function, for example, on a button click
-$('#goals-needed').click(loadData);
 
+// Function to populate the accordion with data
+// 
+function populateAccordion(data) {
+	const accordionContainer = document.getElementById('accordTemplate');
 
+	Object.keys(data).forEach((mainCategory, mainIndex) => {
+		let subAccordions = '';
+		const mainAccordionId = `collapseMain${mainIndex}`;
 
+		data[mainCategory].forEach((subCategoryObj) => {
+			const subCategoryKey = Object.keys(subCategoryObj)[0];
+			const subCategoryData = subCategoryObj[subCategoryKey];
+			const subAccordionId = `collapseSub${mainIndex}${subCategoryKey.replace(
+				/[^a-zA-Z0-9]/g,
+				''
+			)}`;
 
+			subAccordions += `
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="subHeading${subCategoryKey}${mainIndex}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${subAccordionId}" aria-expanded="false" aria-controls="${subAccordionId}">
+                           ${subCategoryKey}
+                        </button>
+                    </h2>
+                    <div id="${subAccordionId}" class="accordion-collapse collapse" aria-labelledby="subHeading${subCategoryKey}${mainIndex}">
+                        <div class="accordion-body">
+                            Goal: ${subCategoryData.join(', ')}
+                        </div>
+                    </div>
+                </div>
+            `;
+		});
 
+		const accordionItem = `
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading${mainIndex}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${mainAccordionId}" aria-expanded="false" aria-controls="${mainAccordionId}">
+                        Goal: ${mainCategory}
+                    </button>
+                </h2>
+                <div id="${mainAccordionId}" class="accordion-collapse collapse" aria-labelledby="heading${mainIndex}">
+                    <div class="accordion-body">
+                        <div class="accordion" id="subAccordion${mainIndex}${mainCategory}">
+                            ${subAccordions}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
 
-
-const displayData = (data) => {
-	// Use the jQuery $ function to select the element by ID and set its content
-	$('#goals-needed').text(data); // If it's just text
-	// OR
-	//$('#data-container').html(data); // If you need to insert HTML
-};
-// Example data from a script
-const parsedData = '';
-
-if (parsedData == '') {
-	displayData('All goals meet.......');
-} else {
-	displayData(parsedData);
+		accordionContainer.innerHTML += accordionItem;
+	});
 }

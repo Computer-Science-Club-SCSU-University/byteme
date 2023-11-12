@@ -2,7 +2,7 @@ import json
 import re
 
 
-def findOptimalCourse(courses: dict, goalLeft: list):
+def findOptimalCourse(courses: dict, goalLeft: list, userNotCompleted):
     """
     This function creates a list of optimal courses according
     to the goal areas hasn't fulfilled in descending order
@@ -48,8 +48,12 @@ def findOptimalCourse(courses: dict, goalLeft: list):
                 else:
                     courseGoal[item] = [key]
 
+    newDict = {}
 
-    return json.dumps(str(courseGoal).replace("'", "\""))
+    for key in goalLeft:
+        newDict[f"{str(key)} {userNotCompleted[key]}"] = courseGoal[key]
+
+    return json.dumps(newDict)
 
 
 def splitAlpha(string):
@@ -126,23 +130,29 @@ def extractCourseCode(text):
 
 
 def extractGoalAreas(text):
-    pattern = r"GOAL\s*(?P<goal_number>\d+):"
+    pattern_1 = r"GOAL\s*(?P<goal_number>\d+):"
+    pattern_2 = r'\(\d+ courses? or experience[s]?\)'
+
     current = -1
 
     sortGoalAreas = {"NO": [], "YES": [], "IP": []}
     goalCourses = {}
 
     for line in text:
-        if re.search(pattern, line):
+        if re.search(pattern_1, line):
             content = line.split()
             current = int(content[2][:-1])
-
-            if content[0] in sortGoalAreas:
-                sortGoalAreas[content[0]].append(current)
-            else:
-                sortGoalAreas[content[0]] = [current]
+            description = " ".join(content[3:])
 
             goalCourses[current] = ""
+
+        elif re.search(pattern_2, line):
+            description += f" {line.strip()}"
+
+            if content[0] in sortGoalAreas:
+                sortGoalAreas[content[0]].append({current: description})
+            else:
+                sortGoalAreas[content[0]] = [{current: description}]
 
         elif "UNIVERSITY REQUIREMENTS-DIVERSITY" in line:
             break
@@ -157,26 +167,43 @@ def extractGoalAreas(text):
     return {"Goal-Courses": goalCourses, "Progress-Goal": sortGoalAreas}
 
 
-def extractCourseGoals(goalCourses):
+def extractCourseGoals(goalCourses, coursesTaken):
     courseGoals = {}
 
     for goal in goalCourses:
         for course in goalCourses[goal]:
-            if course in courseGoals:
+            if course in coursesTaken:
+                pass
+            elif course in courseGoals:
                 courseGoals[course].append(goal)
+                courseGoals[course] = courseGoals[course]
             else:
                 courseGoals[course] = [goal]
+
 
     return courseGoals
 
 
-def pipeline(text):
-    extract = extractGoalAreas(text)
+def pipeline(audit, transcript):
+    auditData = extractGoalAreas(audit)
+    transcriptData = extractCourseCode(str(transcript))
 
-    courseContents = extract["Goal-Courses"]
+    courseContents = auditData["Goal-Courses"]
 
-    userNotCompleted = extract["Progress-Goal"]["NO"]
+    userNotCompleted = auditData["Progress-Goal"]["NO"]
 
-    courseGoals = extractCourseGoals(courseContents)
+    goalsLeft = []
 
-    return findOptimalCourse(courseGoals, userNotCompleted)
+    for data in userNotCompleted:
+        for key in data:
+            goalsLeft.append(key)
+
+    newDict = {}
+
+    for data in userNotCompleted:
+        for key, val in data.items():
+            newDict[key] = val
+
+    courseGoals = extractCourseGoals(courseContents, transcriptData)
+
+    return findOptimalCourse(courseGoals, goalsLeft, newDict)

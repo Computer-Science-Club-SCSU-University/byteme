@@ -24,13 +24,14 @@
 			<h2>Just byte me for the details!</h2>
 		</div>
 		<div class="container col-4">
-			<form>
+			<form action="/save" method="POST" id="myForm">
 				<div class="form-group mt-5">
 					<label for="startid">Star ID</label>
 					<input
-						type="starid"
+						type="username"
 						class="form-control"
-						id="starid"
+						id="username"
+						name="username"
 						placeholder="Enter Star ID"
 						required />
 				</div>
@@ -40,6 +41,7 @@
 						type="password"
 						class="form-control"
 						id="password"
+						name="password"
 						placeholder="Password"
 						required />
 				</div>
@@ -76,5 +78,38 @@
 			</div>
 			<!-- Copyright -->
 		</footer>
+		
+		<script>
+			// Get references to the form and input fields
+			const form = document.getElementById("myForm");
+			const usernameInput = document.getElementById("starid");
+			const passwordInput = document.getElementById("password");
+		  
+			form.addEventListener("submit", function (event) {
+			  event.preventDefault(); // Prevent the form from submitting normally
+		  
+			  const username = usernameInput.value;
+			  const password = passwordInput.value;
+		  
+			  // Create a FormData object and append the values to it
+			  const formData = new FormData();
+			  formData.append("username", username);
+			  formData.append("password", password);
+		  
+			  // Send the data to the server for processing (AJAX or fetch request)
+			  fetch("/save", {
+				method: "POST",
+				body: formData,
+			  })
+				.then((response) => response.text())
+				.then((data) => {
+				  console.log(data); // Log the server response
+				});
+		  
+			  // You can also reset the form if needed
+			  form.reset();
+			});
+		  </script>
+		  
 	</body>
 </html>

@@ -77,11 +77,18 @@ graph TD;
 ```
 ### 3. Demo
 ---
-#### GIF 1 | Start StarID & Login 
+#### 1 | Start StarID & Login 
 *Sketch/Draft*
 <p align="center">
   <img src="Hackathon%20Fall%202023%20README%20Resources/HackathonWebGUIDraft.jpg" alt="WebGUIDraft" width="700"/>
 </p>
+
+*Final*
+
+<p align="center">
+  <img src="Hackathon%20Fall%202023%20README%20Resources/GUIDEMO.png" alt="GUIDEMO" width="800"/>
+</p>
+
 
 ```javascript
 // Function to populate the accordion with data
@@ -144,10 +151,10 @@ function populateAccordion(data) {
 </p>
 
 
-#### GIF 2 | Audit and Degree Map Scrape
+#### 2 | Audit and Degree Map Scrape
 
 
-#### GIF 3 | Data Parser
+#### 3 | Data Parser
 <p align="center">
   <img src="Hackathon%20Fall%202023%20README%20Resources/HackathonDataParserDraft.jpg" alt="DataParserDraft" width="600"/>
 </p>
@@ -241,7 +248,7 @@ def PrintToScreen(filtered_words_with_next):
 ```
 
 - The `PrintToScreen` function takes the newly cleaned and list and formats the final list in a standardized way for our other pythons scripts to process.
-#### GIF 4 | Points System
+#### 4 | Points System
 
 ```python
 def findOptimalCourse(courses: dict, goalLeft: list):
@@ -277,7 +284,7 @@ Where:
 - The max⁡ function selects the combination of courses that maximizes the total number of fulfilled goals.
 - Once the class scores are fully calculated. The data is exported as a JSON.
 
-#### GIF 5 | Display Data
+#### 5 | Display Data
 ### 4. Technologies
 ---
 - [Python](https://www.python.org)

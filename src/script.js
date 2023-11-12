@@ -1,7 +1,7 @@
 // Event listener for the DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', function () {
 	// Calls fetchAccordionData function when the DOM is fully loaded
-	fetchAccordionData('http://10.101.40.59/ '); // Replace with your actual API URL
+	fetchAccordionData('http://10.101.16.250/utils'); // Replace with your actual API URL
 });
 
 // Function to fetch data for the accordion from an API

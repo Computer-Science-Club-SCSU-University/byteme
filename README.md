@@ -54,7 +54,10 @@ The main problem is the lack of guidance and information of courses available to
 
 *Sketch/Draft*
 
-![[HackathonStartStarIDLoginDemo.jpg]]
+<p align="center">
+  <img src="Hackathon%20Fall%202023%20README%20Resources/HackathonStartStarIDLoginDemo.jpg" alt="Pipeline" width="700"/>
+</p>
+
 
 *Final*
 

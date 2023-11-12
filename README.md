@@ -13,7 +13,9 @@
 ---
 The main problem is the lack of guidance and information of courses available to student's. It's sometimes unclear what classes provide more value to the student or what classes have a less favorable professor.
 
-![[SCSU_Liberal_Education_and_Graduation_Requirements.png]]
+<p align="center">
+  <img src="Hackathon%20Fall%202023%20README%20Resources/SCSU_Liberal_Education_and_Graduation_Requirements.png" alt="Liberal_Education_and_Graduation_Requirements" width="500"/>
+</p>
 (Figure 1) SCSU requires students to take classes from 10 Separate goal areas plus Diversity and Cultural requirements. The university conveniently hosts all of this information on their website. This is the foundation for our web scrapper.
 
 #### Unofficial Transcript Example
@@ -44,11 +46,16 @@ The main problem is the lack of guidance and information of courses available to
 ### 3. Demo
 ---
 #### GIF 1 | Start StarID & Login 
-![[HackathonWebGUIDraft.jpg]]
+<p align="center">
+  <img src="Hackathon%20Fall%202023%20README%20Resources/HackathonWebGUIDraft.jpg" alt="WebGUIDraft" width="700"/>
+</p>
 #### GIF 2 | Audit and Degree Map Scrape
 
 #### GIF 3 | Data Parser
-![[HackathonDataParserDraft.jpg]]
+<p align="center">
+  <img src="Hackathon%20Fall%202023%20README%20Resources/HackathonDataParserDraft.jpg" alt="DataParserDraft" width="600"/>
+</p>
+
 
 #### GIF 4 | Points System
 

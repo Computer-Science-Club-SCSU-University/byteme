@@ -22,8 +22,8 @@ from dotenv import load_dotenv
 # Load the .env file
 load_dotenv()
 #set variables from .env file
-password = os.getenv("PASSWORD")
-username = os.getenv("USERNAME")
+password = "Egobabe100%"#os.getenv("PASSWORD")
+username = "fg2784fh"#os.getenv("USERNAME")
 
 import json
 from selenium import webdriver

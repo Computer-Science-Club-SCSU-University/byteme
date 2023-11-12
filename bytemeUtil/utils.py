@@ -2,7 +2,7 @@ import json
 import re
 
 
-def findOptimalCourse(courses: dict, goalLeft: list):
+def findOptimalCourse(courses: dict, goalLeft: list, userNotCompleted: dict):
     """
     This function creates a list of optimal courses according
     to the goal areas hasn't fulfilled in descending order
@@ -33,7 +33,7 @@ def findOptimalCourse(courses: dict, goalLeft: list):
         if val > 0:
             res.append(key)
 
-    for i,key in enumerate(res):
+    for i, key in enumerate(res):
         if key in courses:
             res[i] = {key: courses[key]}
 
@@ -48,11 +48,26 @@ def findOptimalCourse(courses: dict, goalLeft: list):
                 else:
                     courseGoal[item] = [key]
 
+    newDict = {}
 
-    return json.dumps(str(courseGoal).replace("'", "\""))
+    for key in goalLeft:
+        newDict[f"{str(key)} {userNotCompleted[key]}"] = courseGoal[key]
+
+    return json.dumps(newDict)
 
 
-def splitAlpha(string):
+def splitAlpha(string: str):
+    """
+    This function creates a list of optimal courses according
+    to the goal areas hasn't fulfilled in descending order
+
+    :param courses: The json of all courses from the scraper
+    :type courses: dict
+    :param goalLeft: Goal areas the user needs to fulfill
+    :type goalLeft: list
+    :return: A json of all the optimal courses the user can take
+    :rtype: dict
+    """
     courses = []
     codes = []
     alpha = ""
@@ -79,7 +94,18 @@ def splitAlpha(string):
     return {"course": courses, "code": codes}
 
 
-def extractCourseCode(text):
+def extractCourseCode(text: str):
+    """
+    This function creates a list of optimal courses according
+    to the goal areas hasn't fulfilled in descending order
+
+    :param courses: The json of all courses from the scraper
+    :type courses: dict
+    :param goalLeft: Goal areas the user needs to fulfill
+    :type goalLeft: list
+    :return: A json of all the optimal courses the user can take
+    :rtype: dict
+    """
     pattern = re.compile(r"\b[A-Za-z]{2,4}\d{3}\b")
     matches = pattern.findall(text)
 
@@ -125,7 +151,18 @@ def extractCourseCode(text):
     return courselist
 
 
-def extractGoalAreas(text):
+def extractGoalAreas(text: list):
+    """
+    This function creates a list of optimal courses according
+    to the goal areas hasn't fulfilled in descending order
+
+    :param courses: The json of all courses from the scraper
+    :type courses: dict
+    :param goalLeft: Goal areas the user needs to fulfill
+    :type goalLeft: list
+    :return: A json of all the optimal courses the user can take
+    :rtype: dict
+    """
     pattern = r"GOAL\s*(?P<goal_number>\d+):"
     current = -1
 
@@ -136,11 +173,12 @@ def extractGoalAreas(text):
         if re.search(pattern, line):
             content = line.split()
             current = int(content[2][:-1])
+            description = " ".join(content[3:])
 
             if content[0] in sortGoalAreas:
-                sortGoalAreas[content[0]].append(current)
+                sortGoalAreas[content[0]].append({current: description})
             else:
-                sortGoalAreas[content[0]] = [current]
+                sortGoalAreas[content[0]] = [{current: description}]
 
             goalCourses[current] = ""
 
@@ -157,26 +195,64 @@ def extractGoalAreas(text):
     return {"Goal-Courses": goalCourses, "Progress-Goal": sortGoalAreas}
 
 
-def extractCourseGoals(goalCourses):
+def extractCourseGoals(goalCourses: dict, coursesTaken: list):
+    """
+    This function creates a list of optimal courses according
+    to the goal areas hasn't fulfilled in descending order
+
+    :param courses: The json of all courses from the scraper
+    :type courses: dict
+    :param goalLeft: Goal areas the user needs to fulfill
+    :type goalLeft: list
+    :return: A json of all the optimal courses the user can take
+    :rtype: dict
+    """
     courseGoals = {}
 
     for goal in goalCourses:
         for course in goalCourses[goal]:
-            if course in courseGoals:
+            if course in coursesTaken:
+                pass
+            elif course in courseGoals:
                 courseGoals[course].append(goal)
+                courseGoals[course] = courseGoals[course]
             else:
                 courseGoals[course] = [goal]
 
     return courseGoals
 
 
-def pipeline(text):
-    extract = extractGoalAreas(text)
+def pipeline(audit, transcript):
+    """
+    This function creates a list of optimal courses according
+    to the goal areas hasn't fulfilled in descending order
 
-    courseContents = extract["Goal-Courses"]
+    :param courses: The json of all courses from the scraper
+    :type courses: dict
+    :param goalLeft: Goal areas the user needs to fulfill
+    :type goalLeft: list
+    :return: A json of all the optimal courses the user can take
+    :rtype: dict
+    """
+    auditData = extractGoalAreas(audit)
+    transcriptData = extractCourseCode(str(transcript))
 
-    userNotCompleted = extract["Progress-Goal"]["NO"]
+    courseContents = auditData["Goal-Courses"]
 
-    courseGoals = extractCourseGoals(courseContents)
+    userNotCompleted = auditData["Progress-Goal"]["NO"]
 
-    return findOptimalCourse(courseGoals, userNotCompleted)
+    goalsLeft = []
+
+    for data in userNotCompleted:
+        for key in data:
+            goalsLeft.append(key)
+
+    newDict = {}
+
+    for data in userNotCompleted:
+        for key, val in data.items():
+            newDict[key] = val
+
+    courseGoals = extractCourseGoals(courseContents, transcriptData)
+
+    return findOptimalCourse(courseGoals, goalsLeft, newDict)

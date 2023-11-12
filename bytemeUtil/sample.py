@@ -1,10 +1,13 @@
 from utils import pipeline
 import json
 
-file_path = 'Degree Audit.txt'
+audit = 'Degree Audit.txt'
+transcript = 'Unofficial transcript.txt'
 
-with open(file_path, 'r') as file:
-    text = file.readlines()
+with open(audit, 'r') as file:
+    auditData = file.readlines()
 
-optimalCourseList = json.loads(pipeline(text))
+with open(transcript, 'r') as file:
+    transcriptData = file.readlines()
 
+optimalCourseList= json.loads(pipeline(auditData, transcript))

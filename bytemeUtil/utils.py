@@ -1,69 +1,21 @@
+"""
+Functions that parses and process the data from the scraper, and transfers to the API
+Refer to utilsDoc for detailed documentation
+"""
+
 import json
 import re
 
 
-def findOptimalCourse(courses: dict, goalLeft: list, userNotCompleted: dict):
-    """
-    This function creates a list of optimal courses according
-    to the goal areas hasn't fulfilled in descending order
-
-    :param courses: The json of all courses from the scraper
-    :type courses: dict
-    :param goalLeft: Goal areas the user needs to fulfill
-    :type goalLeft: list
-    :return: A json of all the optimal courses the user can take
-    :rtype: dict
-    """
-    hashMap = {}
-    res = []
-
-    for course in courses:
-        points = 0
-        goalFulfill = courses[course]
-
-        for goals in goalLeft:
-            if goals in goalFulfill:
-                points += 1
-
-        hashMap[course] = points
-
-    hashMap = dict(sorted(hashMap.items(), key=lambda x: x[1], reverse=True))
-
-    for key, val in hashMap.items():
-        if val > 0:
-            res.append(key)
-
-    for i, key in enumerate(res):
-        if key in courses:
-            res[i] = {key: courses[key]}
-
-    courseGoal = {}
-
-    for key in res:
-        for val in key.values():
-            for item in val:
-                if item in courseGoal:
-                    courseGoal[item].append(key)
-
-                else:
-                    courseGoal[item] = [key]
-
-    newDict = {}
-
-    for key in goalLeft:
-        newDict[f"{str(key)} {userNotCompleted[key]}"] = courseGoal[key]
-
-    return json.dumps(newDict)
-
-
 def splitAlpha(string: str):
     """
-    This function seperates course abbreviations and codes into seperate lists
+    Separates course abbreviations and codes into separate lists
 
-    :param string: The string to be seperated
+    :param string: The input string containing a combination of course abbreviations and codes
     :type string: str
-    :return: The the list of course abbreviations and
+    :return: A dictionary containing two lists: 'courses' for course abbreviations and 'codes' for numeric codes
     :rtype: dict
+
     """
     courses = []
     codes = []
@@ -93,15 +45,13 @@ def splitAlpha(string: str):
 
 def extractCourseCode(text: str):
     """
-    This function creates a list of optimal courses according
-    to the goal areas hasn't fulfilled in descending order
+    This function utilizes regular expressions to process a string and extract course codes
+    that adhere to the format used at St. Cloud State University
 
-    :param courses: The json of all courses from the scraper
-    :type courses: dict
-    :param goalLeft: Goal areas the user needs to fulfill
-    :type goalLeft: list
-    :return: A json of all the optimal courses the user can take
-    :rtype: dict
+    :param text: The string to be parsed
+    :type text: str
+    :return: A list of unique course codes found in the text
+    :rtype: list
     """
     pattern = re.compile(r"\b[A-Za-z]{2,4}\d{3}\b")
     matches = pattern.findall(text)
@@ -150,20 +100,17 @@ def extractCourseCode(text: str):
 
 def extractGoalAreas(text: list):
     """
-    This function creates a list of optimal courses according
-    to the goal areas hasn't fulfilled in descending order
+    Extracts goal areas and their associated courses from a user's Degree Audit using regular expressions
 
-    :param courses: The json of all courses from the scraper
-    :type courses: dict
-    :param goalLeft: Goal areas the user needs to fulfill
-    :type goalLeft: list
-    :return: A json of all the optimal courses the user can take
+    :param text: The Degree Audit content read from a text file
+    :type text: list
+    :return: A dictionary containing goal areas, their optimal courses, and progress information
     :rtype: dict
     """
     pattern_1 = r"GOAL\s*(?P<goal_number>\d+):"
     pattern_2 = r"\(\d+ courses? or experience[s]?\)"
-    current = -1
 
+    current = -1
     sortGoalAreas = {"NO": [], "YES": [], "IP": []}
     goalCourses = {}
 
@@ -172,7 +119,6 @@ def extractGoalAreas(text: list):
             content = line.split()
             current = int(content[2][:-1])
             description = " ".join(content[3:])
-
             goalCourses[current] = ""
 
         elif re.search(pattern_2, line):
@@ -198,14 +144,13 @@ def extractGoalAreas(text: list):
 
 def extractCourseGoals(goalCourses: dict, coursesTaken: list):
     """
-    This function creates a list of optimal courses according
-    to the goal areas hasn't fulfilled in descending order
+    Creates a dictionary mapping each course code to a list of goal areas they fulfill
 
-    :param courses: The json of all courses from the scraper
-    :type courses: dict
-    :param goalLeft: Goal areas the user needs to fulfill
-    :type goalLeft: list
-    :return: A json of all the optimal courses the user can take
+    :param goalCourses: A dictionary where keys are goal areas, and values are lists of associated course codes
+    :type goalCourses: dict
+    :param coursesTaken: A list of courses that the user has already taken
+    :type coursesTaken: list
+    :return: A dictionary where keys are course codes, and values are lists of goal areas they fulfill
     :rtype: dict
     """
     courseGoals = {}
@@ -223,17 +168,71 @@ def extractCourseGoals(goalCourses: dict, coursesTaken: list):
     return courseGoals
 
 
-def pipeline(audit, transcript):
+def findOptimalCourse(courses: dict, goalLeft: list, userNotCompleted: dict):
     """
-    This function creates a list of optimal courses according
-    to the goal areas hasn't fulfilled in descending order
+    Creates a dictionary of optimal courses based on unfulfilled goal areas in descending order
 
-    :param courses: The json of all courses from the scraper
+    :param courses: A dictionary containing course codes as keys and lists of associated goal areas as values
     :type courses: dict
-    :param goalLeft: Goal areas the user needs to fulfill
+    :param goalLeft: A list of goal areas that the user needs to fulfill
     :type goalLeft: list
-    :return: A json of all the optimal courses the user can take
-    :rtype: dict
+    :param userNotCompleted: A dictionary with goal areas as keys and their descriptions as values.
+    :type userNotCompleted: dict
+    :return: A JSON representation of optimal courses for unfulfilled goal areas
+    :rtype: str
+    """
+    hashMap = {}
+    res = []
+
+    for course in courses:
+        points = 0
+        goalFulfill = courses[course]
+
+        for goals in goalLeft:
+            if goals in goalFulfill:
+                points += 1
+
+        hashMap[course] = points
+
+    hashMap = dict(sorted(hashMap.items(), key=lambda x: x[1], reverse=True))
+
+    for key, val in hashMap.items():
+        if val > 0:
+            res.append(key)
+
+    for i, key in enumerate(res):
+        if key in courses:
+            res[i] = {key: courses[key]}
+
+    courseGoal = {}
+
+    for key in res:
+        for val in key.values():
+            for item in val:
+                if item in courseGoal:
+                    courseGoal[item].append(key)
+
+                else:
+                    courseGoal[item] = [key]
+
+    newDict = {}
+
+    for key in goalLeft:
+        newDict[f"{str(key)} {userNotCompleted[key]}"] = courseGoal[key]
+
+    return json.dumps(newDict)
+
+
+def pipeline(audit: list, transcript: list):
+    """
+    Takes in a Degree Audit and transcript, and returns a JSON representation of optimal courses for unfulfilled goal areas
+
+    :param audit: The Degree Audit content read from a text file
+    :type audit: list
+    :param transcript: The transcript content read from a text file
+    :type transcript: list
+    :return: A JSON representation of optimal courses for unfulfilled goal areas
+    :rtype: str
     """
     auditData = extractGoalAreas(audit)
     transcriptData = extractCourseCode(str(transcript))

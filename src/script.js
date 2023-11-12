@@ -2,13 +2,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Calls fetchAccordionData function when the DOM is fully loaded
     fetchAccordionData('http://10.101.41.235/utils');
-    // if (!fetchAccordionData('http://10.101.16.250/utils')) {
-    //     console.log('Error fetching data');
-    // } // Replace with your actual API URL
 });
 
 // Function to fetch data for the accordion from an API
-function fetchAccordionData(apiUrl) {
+const fetchAccordionData = (apiUrl) => {
 	// Fetches data from the API URL
 	fetch(apiUrl)
 		.then((response) => response.json()) // Parses the response as JSON
@@ -16,23 +13,31 @@ function fetchAccordionData(apiUrl) {
 		.catch((error) => console.error('Error fetching data:', error)); // Logs errors, if any
 }
 
-// Function to populate the accordion with data
-// 
-function populateAccordion(data) {
+/// Function to populate accordion elements with api data
+const populateAccordion = (data) => {
+	// Selecting the accordion container in the DOM
 	const accordionContainer = document.getElementById('accordTemplate');
 
+	// Iterating over each main category in the provided data
 	Object.keys(data).forEach((mainCategory, mainIndex) => {
+		// Variable to store HTML for sub-accordions
 		let subAccordions = '';
+		// Creating a unique ID for the main accordion element
 		const mainAccordionId = `collapseMain${mainIndex}`;
 
+		// Iterating over each subcategory within the main category
 		data[mainCategory].forEach((subCategoryObj) => {
+			// Extracting the key (name) of the subcategory
 			const subCategoryKey = Object.keys(subCategoryObj)[0];
+			// Extracting the data associated with the subcategory
 			const subCategoryData = subCategoryObj[subCategoryKey];
+			// Creating a unique ID for the sub-accordion element
 			const subAccordionId = `collapseSub${mainIndex}${subCategoryKey.replace(
 				/[^a-zA-Z0-9]/g,
 				''
 			)}`;
 
+			// Constructing HTML for each sub-accordion item
 			subAccordions += `
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="subHeading${subCategoryKey}${mainIndex}">
@@ -49,6 +54,7 @@ function populateAccordion(data) {
             `;
 		});
 
+		// Constructing HTML for the main accordion item
 		const accordionItem = `
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading${mainIndex}">
@@ -66,6 +72,7 @@ function populateAccordion(data) {
             </div>
         `;
 
+		// Appending the constructed accordion item to the accordion container
 		accordionContainer.innerHTML += accordionItem;
 	});
 }

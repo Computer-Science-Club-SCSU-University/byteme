@@ -209,6 +209,13 @@ button_on_page = driver.find_element(By.XPATH, '/html/body/div[2]/div[1]/div/div
 button_on_page.click()
 ```
 
+#### Demo GIF
+
+<p align="center">
+  <img src="Hackathon%20Fall%202023%20README%20Resources/demo.gif" alt="demovideo" width="800"/>
+</p>
+
+
 #### 3 | Data Parser
 <p align="center">
   <img src="Hackathon%20Fall%202023%20README%20Resources/HackathonDataParserDraft.jpg" alt="DataParserDraft" width="600"/>

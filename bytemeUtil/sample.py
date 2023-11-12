@@ -1,8 +1,8 @@
 from utils import pipeline
 import json
 
-audit = 'Degree Audit.txt'
-transcript = 'Unofficial transcript.txt'
+audit = 'C:/Users/kg7481ty/Documents/GitHub/byteme/bytemeUtil/Degree_audit.txt'
+transcript = 'C:/Users/kg7481ty/Documents/GitHub/byteme/bytemeUtil/Unofficial_transcript.txt'
 
 with open(audit, 'r') as file:
     auditData = file.readlines()

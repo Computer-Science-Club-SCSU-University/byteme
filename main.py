@@ -4,7 +4,7 @@ import requests
 import uvicorn
 from bytemeUtil.utils import pipeline
 import json
-
+from grab_audit_copy import degree_audit_return
 
 app = FastAPI()
 
@@ -17,17 +17,33 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+import datetime
 @app.get("/utils")
-async def main():    
-    file_path = "bytemeUtil/Degree audit.txt"
+async def main():  
+    
+    #await degree_audit_return()
+    audit = 'C:/Users/kg7481ty/Documents/GitHub/byteme/bytemeUtil/Degree_audit.txt'
+    transcript = 'C:/Users/kg7481ty/Documents/GitHub/byteme/bytemeUtil/Unofficial_transcript.txt'
+
+    with open(audit, 'r') as file:
+        auditData = file.readlines()
+        #now = datetime.datetime.now()
+        #auditData = auditData + str(now)
+
+    with open(transcript, 'r') as file:
+        transcriptData = file.readlines()
+
+    optimalCourseList= json.loads(pipeline(auditData, transcript))
+    return optimalCourseList
+
+    """file_path = "C:/Users/kg7481ty/Documents/GitHub/byteme/bytemeUtil/Degree_audit.txt"
 
     with open(file_path, 'r') as file:
         text = file.readlines()
 
     data = json.loads(pipeline(text))
     return data
-
+    """
 
 
 if __name__ == "__main__":

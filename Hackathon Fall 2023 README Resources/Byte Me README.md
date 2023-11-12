@@ -76,9 +76,9 @@ def findOptimalCourse(courses: dict, goalLeft: list):
 
 The essence of the function can be represented by the equation:
 
-$$O = \max(\sum G_c)$$
-
+$$ O = \max(\sum G_c) $$
 Where:
+
 - $O$ Represents the Optimal set of courses.
 - $GcGc$​ denotes the Goals fulfilled by course cc.
 - The summation $∑Gc$​ sums the goals fulfilled by each course.

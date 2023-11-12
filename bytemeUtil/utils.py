@@ -33,7 +33,23 @@ def findOptimalCourse(courses: dict, goalLeft: list):
         if val > 0:
             res.append(key)
 
-    return json.dumps({"optimalCourses": res})
+    for i,key in enumerate(res):
+        if key in courses:
+            res[i] = {key: courses[key]}
+
+    courseGoal = {}
+
+    for key in res:
+        for val in key.values():
+            for item in val:
+                if item in courseGoal:
+                    courseGoal[item].append(key)
+
+                else:
+                    courseGoal[item] = [key]
+
+
+    return json.dumps(str(courseGoal).replace("'", "\""))
 
 
 def splitAlpha(string):
@@ -64,15 +80,15 @@ def splitAlpha(string):
 
 
 def extractCourseCode(text):
-    pattern = re.compile(r"\b[A-Za-z]{3,4}\d{3}\b")
+    pattern = re.compile(r"\b[A-Za-z]{2,4}\d{3}\b")
     matches = pattern.findall(text)
 
     comma_pattern = re.compile(
-        r"\b([A-Za-z]{3,4}(?:\s|\d{3}(?:,|\s))\d{3}(?:,\d{3})*)\b"
+        r"\b([A-Za-z]{2,4}(?:\s|\d{3}(?:,|\s))\d{3}(?:,\d{3})*)\b"
     )
     matches += comma_pattern.findall(text)
 
-    space_pattern = re.compile(r"\b([A-Za-z]{3,4}\d{3}(?:\s[A-Za-z]{3,4}\d{3})*)\b")
+    space_pattern = re.compile(r"\b([A-Za-z]{2,4}\d{3}(?:\s[A-Za-z]{3,4}\d{3})*)\b")
     matches += space_pattern.findall(text)
 
     parsed = {}

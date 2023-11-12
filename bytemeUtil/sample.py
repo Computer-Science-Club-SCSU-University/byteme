@@ -6,7 +6,5 @@ file_path = 'Degree Audit.txt'
 with open(file_path, 'r') as file:
     text = file.readlines()
 
-optimalCourseList= json.loads(pipeline(text))
+optimalCourseList = json.loads(pipeline(text))
 
-for course in optimalCourseList["optimalCourses"]:
-    print(f"Course: {course}")

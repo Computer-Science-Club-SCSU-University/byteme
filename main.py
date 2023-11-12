@@ -2,6 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import requests
 import uvicorn
+from bytemeUtil.utils import pipeline
+import json
+
+
 app = FastAPI()
 
 
@@ -14,12 +18,19 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def main():
-    return {"message": "Hello World"}
+@app.get("/utils")
+async def main():    
+    file_path = "bytemeUtil/Degree audit.txt"
+
+    with open(file_path, 'r') as file:
+        text = file.readlines()
+
+    data = json.loads(pipeline(text))
+    return data
+
 
 
 if __name__ == "__main__":
     uvicorn.run(
         "main:app", 
-        host="0.0.0.0", port=80, log_level="debug", reload="true")
+        host="0.0.0.0", port=80, log_level="debug", reload="True")

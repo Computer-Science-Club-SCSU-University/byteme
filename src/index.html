@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>ByteMe</title>
+		<meta name="description" content="Optimzied goal areas" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="icon" href="./assets/favicon.png" type="logo" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+			crossorigin="anonymous" />
+		<link rel="stylesheet" href="style.css" />
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+			crossorigin="anonymous"></script>
+	</head>
+	<body class="bg-dark">
+		<div class="text-center text-white mt-5 mb-5 ">
+			<h1>Optimal Courses</h1>
+			<h2>Just byte me for the details!</h2>
+		</div>
+		<div class="container col-4">
+			<form action="http://10.101.41.235/:3000/save" method="POST" id="myForm">
+				<div class="form-group mt-5">
+					<label for="startid">Star ID</label>
+					<input
+						type="username"
+						class="form-control"
+						id="username"
+						name="username"
+						placeholder="Enter Star ID"
+						required />
+				</div>
+				<div class="form-group mt-3">
+					<label for="password">Password</label>
+					<input
+						type="password"
+						class="form-control"
+						id="password"
+						name="password"
+						placeholder="Password"
+						required />
+				</div>
+				<div class="form-check mt-2 small">
+					<input
+						type="checkbox"
+						class="form-check-input"
+						id="privacyAccept"
+						required />
+					<label
+						class="form-check-label text-size-small"
+						for="privacy notice"
+						>When using ByteMe, we do not collect any personal data
+						about you. You can use our services anonymously, and we
+						ensure that your usage remains private.</label
+					>
+				</div>
+				<div class="d-flex justify-content-end">
+					<button type="submit" class="btn btn-primary">
+						Submit
+					</button>
+				</div>
+			</form>
+		</div>
+        <div class="accordion" id="accordTemplate">
+
+		</div>
+		<footer class="text-center text-lg-start mt-5 fixed-bottom">
+			<!-- Copyright -->
+			<div
+				class="text-center p-3"
+				style="background-color: rgba(79, 79, 79, 0.2)">
+				© 2023 ByteMe | All Rights Reserved
+			</div>
+			<!-- Copyright -->
+		</footer>
+		
+		<script>
+			// Get references to the form and input fields
+			const form = document.getElementById("myForm");
+			const usernameInput = document.getElementById("username");
+			const passwordInput = document.getElementById("password");
+			console.log(usernameInput);
+			console.log(passwordInput)
+		  
+			form.addEventListener("submit", function (event) {
+			  event.preventDefault(); // Prevent the form from submitting normally
+		  
+			  const username = usernameInput.value;
+			  const password = passwordInput.value;
+		  
+			  // Create a FormData object and append the values to it
+			  const formData = new FormData();
+			  formData.append("username", username);
+			  formData.append("password", password);
+		  
+			  // Send the data to the server for processing (AJAX or fetch request)
+			  fetch("/save", {
+				method: "POST",
+				body: formData,
+			  })
+				.then((response) => response.text())
+				.then((data) => {
+				  console.log(data); // Log the server response
+				});
+		  
+			  // You can also reset the form if needed
+			  form.reset();
+			});
+		  </script>
+		  
+	</body>
+</html>

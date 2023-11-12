@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"name": "The_Cardswipe_System",
+			"path": "../The_Cardswipe_System"
+		},
+		{
+			"path": "../.myenv"
+		},
+		{
+			"path": "../loginSystem"
+		},
+		{
+			"path": "."
+		}
+	]
+}

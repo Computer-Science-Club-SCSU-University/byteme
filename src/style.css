@@ -1,0 +1,11 @@
+html body {
+	font-family: 'San Francisco', 'Helvetica Neue', Arial, sans-serif;
+    font: 'San Francisco';
+	width: 100%;
+	height: 100%;
+	background-color: rgb(255, 255, 255) !important;
+	color: white;
+}
+h1 {
+	font-size: 85px;
+}

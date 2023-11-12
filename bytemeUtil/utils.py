@@ -62,7 +62,7 @@ def splitAlpha(string: str):
 
     :param string: The string to be seperated
     :type string: str
-    :return: The the list of course abbreviations and 
+    :return: The the list of course abbreviations and
     :rtype: dict
     """
     courses = []
@@ -161,7 +161,7 @@ def extractGoalAreas(text: list):
     :rtype: dict
     """
     pattern_1 = r"GOAL\s*(?P<goal_number>\d+):"
-    pattern_2 = r'\(\d+ courses? or experience[s]?\)'
+    pattern_2 = r"\(\d+ courses? or experience[s]?\)"
     current = -1
 
     sortGoalAreas = {"NO": [], "YES": [], "IP": []}
@@ -182,7 +182,7 @@ def extractGoalAreas(text: list):
                 sortGoalAreas[content[0]].append({current: description})
             else:
                 sortGoalAreas[content[0]] = [{current: description}]
-        
+
         elif "UNIVERSITY REQUIREMENTS-DIVERSITY" in line:
             break
 

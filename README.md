@@ -4,13 +4,13 @@
 
 ### Table of Contents
 ---
-[1. Overview](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#1-overview--tldr)
-[[Byte Me README#1. Overview / TLDR|2. Introduction]]
-[[Byte Me README#3. Demo|3. Demo]]
-[[Byte Me README#4. Technologies|4. Technologies]]
-[[Byte Me README#5. Looking Forward|5. Looking Forward]]
-[[Byte Me README#6. Glossary|6. Glossary]]
-[[Byte Me README#7. Contributors|7. Contributors]]
+- [1. Overview](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#1-overview--tldr)
+- [2. Introduction](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#2-introduction)
+- [3. Demo](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#3-demo)
+- [4. Technologies](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#4-technologies)
+- [5. Looking Forward](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#5-looking-forward)
+- [6. Glossary](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#6-glossary)
+- [7. Contributors](https://github.com/Computer-Science-Club-SCSU-University/byteme/tree/main#7-contributors)
 ### 1. Overview / TLDR
 ---
 - For our Fall 2023 Hackathon Project topic we chose web scrapping.

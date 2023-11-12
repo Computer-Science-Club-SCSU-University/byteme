@@ -1,5 +1,10 @@
 const express = require("express");
+const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
+
+const cors = require("cors"); // Import the cors middleware
+app.use(cors()); // Use cors middleware to allow cross-origin requests
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -11,6 +16,11 @@ app.post("/save", (req, res) => {
   // Here, you can save the username and password to a database or file securely.
   // Do not save passwords in plaintext; always hash them before storing.
 
+  // For demonstration purposes, we'll just log the received data.
+  console.log("Received Data - Username:", username);
+  console.log("Received Data - Password:", password);
+
+  res.send("Data saved successfully");
   // For demonstration purposes, we'll just log the received data.
   console.log("Received Data - Username:", username);
   console.log("Received Data - Password:", password);
